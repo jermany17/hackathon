@@ -1,0 +1,50 @@
+spring:
+
+  config:
+    import: optional:file:.env[.properties]
+
+  datasource:
+    # url: ${MYSQL_URL}
+    # username: ${MYSQL_USER}
+    # password: ${MYSQL_PASSWORD}
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver # MySQL JDBC 드라이버 사용
+  #    hikari:
+  #      #maximum-pool-size: 8
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect # MySQL 문법 사용
+    hibernate:
+      ddl-auto: update # 실행 시 스키마 업데이트, 스키마 확정 시 validate
+    show-sql: true # JPA가 실행하는 SQL 쿼리를 콘솔에 출력
+    properties:
+      hibernate:
+        format_sql: true # SQL 쿼리를 보기 좋게 포맷팅하여 출력
+
+  cloud:
+    aws:
+      credentials:
+        access-key: ${AWS_ACCESS_KEY_ID}
+        secret-key: ${AWS_SECRET_ACCESS_KEY}
+      region:
+        static: ${AWS_REGION}
+      s3:
+        bucket: ${AWS_S3_BUCKET_NAME}
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 15MB  # 개별 파일 최대 크기
+      max-request-size: 45MB  # 전체 요청 최대 크기 (파일 7개 처리 가능하도록)
+
+server:
+  servlet:
+    session:
+      cookie:
+        name: JSESSIONID   # 세션 쿠키 이름 설정
+        secure: true       # HTTPS 환경에서는 true, HTTP 환경에서는 false
+        same-site: None    # SameSite=None 설정
+  address: 0.0.0.0
+  # port: 8080
