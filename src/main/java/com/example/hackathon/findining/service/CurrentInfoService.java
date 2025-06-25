@@ -3,6 +3,7 @@ package com.example.hackathon.findining.service;
 import com.example.hackathon.findining.domain.CurrentInfo;
 import com.example.hackathon.findining.dto.CurrentInfoRequest;
 import com.example.hackathon.findining.dto.CurrentInfoResponse;
+import com.example.hackathon.findining.dto.RecommendSaturationResponse;
 import com.example.hackathon.findining.dto.RecommendTimeResponse;
 import com.example.hackathon.findining.repository.CurrentInfoRepository;
 import lombok.RequiredArgsConstructor;
@@ -159,5 +160,9 @@ public class CurrentInfoService {
         }
 
         return new RecommendTimeResponse(bestLocation);
+    }
+
+    public RecommendSaturationResponse recommendSaturation(int weekday) {
+        return new RecommendSaturationResponse(0);
     }
 }
