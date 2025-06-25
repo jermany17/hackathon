@@ -24,7 +24,6 @@ public class CurrentInfoService {
         int queueCount = fetchPersonCount(QUEUE_COUNT_URL);
         int seatedCount = fetchPersonCount(SEATED_COUNT_URL);
 
-        // 👉 클라이언트로부터 받은 location, weekday 반영
         CurrentInfoRequest requestBody = new CurrentInfoRequest();
         requestBody.setLocation(location);
         requestBody.setWeekday(weekday);
