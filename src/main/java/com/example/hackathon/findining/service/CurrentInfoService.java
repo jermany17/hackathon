@@ -70,25 +70,32 @@ public class CurrentInfoService {
         int weekday = now.getDayOfWeek().getValue() - 1; // 월=1 ~ 일=7 → 월=0 ~ 일=6
 
         for (int location = 0; location <= 4; location++) {
-            int queue = fetchPersonCount(QUEUE_COUNT_URL);
-            int seated = fetchPersonCount(SEATED_COUNT_URL);
-            int backlog = 30;
+            try {
+                int queue = fetchPersonCount(QUEUE_COUNT_URL);
+                int seated = fetchPersonCount(SEATED_COUNT_URL);
+                int backlog = 30;
 
-            int estimated = fetchEstimatedWaitTime(location, weekday, queue, seated, backlog);
+                int estimated = fetchEstimatedWaitTime(location, weekday, queue, seated, backlog);
 
-            CurrentInfo currentInfo = new CurrentInfo(
-                    null,                 // ID (auto-generated)
-                    location,
-                    now,
-                    hour,
-                    weekday,
-                    queue,
-                    seated,
-                    backlog,
-                    estimated
-            );
+                System.out.println("저장 준비 - location: " + location);
 
-            currentInfoRepository.save(currentInfo);
+                CurrentInfo currentInfo = new CurrentInfo(
+                        null,                 // ID (auto-generated)
+                        location,
+                        now,
+                        hour,
+                        weekday,
+                        queue,
+                        seated,
+                        backlog,
+                        estimated
+                );
+
+                currentInfoRepository.save(currentInfo);
+                System.out.println("저장 성공 - location: " + location);
+            } catch(Exception e) {
+                System.out.println("저장 실패 - location: " + location + ", 이유: " + e.getMessage());
+            }
         }
     }
 
