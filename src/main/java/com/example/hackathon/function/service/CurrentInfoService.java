@@ -15,14 +15,16 @@ public class CurrentInfoService {
 
     private static final String EXTERNAL_URL = "https://bbb5-223-195-38-166.ngrok-free.app/function1";
 
-    public CurrentInfoResponse getEstimatedWaitTime() {
+    public CurrentInfoResponse getEstimatedWaitTime(int location, int weekday) {
         RestTemplate restTemplate = new RestTemplate();
 
-        // 👉 서비스에서 동적으로 요청값 초기화
+        // 👉 클라이언트로부터 받은 location, weekday 반영
         CurrentInfoRequest requestBody = new CurrentInfoRequest();
-        requestBody.setCurrent_queue_length(0);      // TODO: 추후 다른 API에서 값 불러와 설정
-        requestBody.setCurrent_seated_count(0);      // TODO: 추후 다른 API에서 값 불러와 설정
-        requestBody.setCurrent_order_backlog(0);     // TODO: 추후 DB에서 불러와 설정
+        requestBody.setLocation(location);
+        requestBody.setWeekday(weekday);
+        requestBody.setCurrent_queue_length(0);       // TODO: 추후 외부 API 등에서 설정
+        requestBody.setCurrent_seated_count(0);       // TODO: 추후 외부 API 등에서 설정
+        requestBody.setCurrent_order_backlog(0);      // TODO: 추후 DB 등에서 설정
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
