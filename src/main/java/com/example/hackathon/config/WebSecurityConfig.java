@@ -37,7 +37,7 @@ public class WebSecurityConfig {
                         .requestMatchers(
                                 "/userinfo", "/check-password", "/update-password", "/delete-account",
                                 "/s3/upload", "/s3/delete",
-                                "/preinfo/*",
+                                "/preinfo/**",
                                 "/currentwait",
                                 "/menu"
                         ).authenticated()
