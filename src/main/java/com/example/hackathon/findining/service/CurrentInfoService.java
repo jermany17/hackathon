@@ -39,8 +39,8 @@ public class CurrentInfoService {
             seatedCount = 30;
         }
         else if(location == 3){
-            queueCount = 40;
-            seatedCount = 40;
+            queueCount = 60;
+            seatedCount = 60;
         }
         else if(location == 4){
             queueCount = 0;
