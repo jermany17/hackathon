@@ -24,7 +24,7 @@ public class OrderController {
         String useName = user.getUsername(); // 또는 getName()
 
         orderService.recordOrder(userId, useName);
-        
+
         Map<String, String> response = new HashMap<>();
         response.put("message", "주문완료");
         return ResponseEntity.ok(response);
