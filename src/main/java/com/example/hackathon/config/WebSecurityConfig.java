@@ -38,7 +38,7 @@ public class WebSecurityConfig {
                                 "/userinfo", "/check-password", "/update-password", "/delete-account",
                                 "/s3/upload", "/s3/delete",
                                 "/preinfo/**",
-                                "/currentwait", "/recommend_time",
+                                "/currentwait", "/recommend_time", "/recommend_saturation",
                                 "/menu", "/order", "/predict"
                         ).authenticated()
                         .anyRequest().denyAll()
