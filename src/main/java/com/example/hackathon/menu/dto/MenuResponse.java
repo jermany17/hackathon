@@ -7,10 +7,11 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class MenuResponse {
+    private int id;
     private String menuName;
     private int menuPrice;
 
     public static MenuResponse from(Menu menu) {
-        return new MenuResponse(menu.getMenuName(), menu.getMenuPrice());
+        return new MenuResponse(menu.getId(), menu.getMenuName(), menu.getMenuPrice());
     }
 }
