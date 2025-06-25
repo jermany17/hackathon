@@ -53,7 +53,7 @@ public class CurrentInfoService {
             }
         }
 
-        int divided = estimatedWaitTime / 60;
+        int divided = (int)(estimatedWaitTime + 0.5) / 60;
         return new CurrentInfoResponse(divided);
     }
 
