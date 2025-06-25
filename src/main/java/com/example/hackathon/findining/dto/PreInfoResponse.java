@@ -1,6 +1,6 @@
-package com.example.hackathon.function.dto;
+package com.example.hackathon.findining.dto;
 
-import com.example.hackathon.function.domain.PreInfo;
+import com.example.hackathon.findining.domain.PreInfo;
 import lombok.Getter;
 
 import java.time.LocalDateTime;

@@ -1,4 +1,4 @@
-package com.example.hackathon.function.dto;
+package com.example.hackathon.findining.dto;
 
 import lombok.Getter;
 import lombok.Setter;

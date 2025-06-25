@@ -1,6 +1,6 @@
-package com.example.hackathon.function.repository;
+package com.example.hackathon.findining.repository;
 
-import com.example.hackathon.function.domain.PreInfo;
+import com.example.hackathon.findining.domain.PreInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDateTime;

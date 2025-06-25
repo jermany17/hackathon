@@ -1,7 +1,7 @@
-package com.example.hackathon.function.service;
+package com.example.hackathon.findining.service;
 
-import com.example.hackathon.function.dto.PreInfoResponse;
-import com.example.hackathon.function.repository.PreInfoRepository;
+import com.example.hackathon.findining.dto.PreInfoResponse;
+import com.example.hackathon.findining.repository.PreInfoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

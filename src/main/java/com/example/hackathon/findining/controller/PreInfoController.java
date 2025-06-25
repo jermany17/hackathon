@@ -1,7 +1,7 @@
-package com.example.hackathon.function.controller;
+package com.example.hackathon.findining.controller;
 
-import com.example.hackathon.function.dto.PreInfoResponse;
-import com.example.hackathon.function.service.PreInfoService;
+import com.example.hackathon.findining.dto.PreInfoResponse;
+import com.example.hackathon.findining.service.PreInfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

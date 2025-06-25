@@ -1,7 +1,7 @@
-package com.example.hackathon.function.controller;
+package com.example.hackathon.findining.controller;
 
-import com.example.hackathon.function.dto.CurrentInfoResponse;
-import com.example.hackathon.function.service.CurrentInfoService;
+import com.example.hackathon.findining.dto.CurrentInfoResponse;
+import com.example.hackathon.findining.service.CurrentInfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

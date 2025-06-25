@@ -1,7 +1,7 @@
-package com.example.hackathon.function.service;
+package com.example.hackathon.findining.service;
 
-import com.example.hackathon.function.dto.CurrentInfoRequest;
-import com.example.hackathon.function.dto.CurrentInfoResponse;
+import com.example.hackathon.findining.dto.CurrentInfoRequest;
+import com.example.hackathon.findining.dto.CurrentInfoResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -24,7 +24,7 @@ public class CurrentInfoService {
         requestBody.setWeekday(weekday);
         requestBody.setCurrent_queue_length(0);       // TODO: 추후 외부 API 등에서 설정
         requestBody.setCurrent_seated_count(0);       // TODO: 추후 외부 API 등에서 설정
-        requestBody.setCurrent_order_backlog(0);      // TODO: 추후 DB 등에서 설정
+        requestBody.setCurrent_order_backlog(30);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);

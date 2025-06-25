@@ -1,4 +1,4 @@
-package com.example.hackathon.function.domain;
+package com.example.hackathon.findining.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
