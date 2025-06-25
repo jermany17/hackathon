@@ -20,6 +20,6 @@ public class PreInfoResponse {
         this.createAt = preInfo.getCreateAt();
         this.time = preInfo.getTime();
         this.weekday = preInfo.getWeekday();
-        this.estimatedWaitTime = preInfo.getEstimatedWaitTime() / 60;
+        this.estimatedWaitTime = Math.round(preInfo.getEstimatedWaitTime() / 60.0f);
     }
 }
