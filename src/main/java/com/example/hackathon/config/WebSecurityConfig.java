@@ -39,7 +39,7 @@ public class WebSecurityConfig {
                                 "/s3/upload", "/s3/delete",
                                 "/preinfo/**",
                                 "/currentwait",
-                                "/menu"
+                                "/menu", "/order"
                         ).authenticated()
                         .anyRequest().denyAll()
                 )
