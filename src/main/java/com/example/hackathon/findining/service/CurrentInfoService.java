@@ -2,6 +2,7 @@ package com.example.hackathon.findining.service;
 
 import com.example.hackathon.findining.dto.CurrentInfoRequest;
 import com.example.hackathon.findining.dto.CurrentInfoResponse;
+import com.example.hackathon.findining.dto.RecommendTimeResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class CurrentInfoService {
 
-    private static final String EXTERNAL_URL = "https://bbb5-223-195-38-166.ngrok-free.app/function1";
+    private static final String EXTERNAL_URL = "https://bbb5-223-195-38-166.ngrok-free.app/real_wait_time";
 
     public CurrentInfoResponse getEstimatedWaitTime(int location, int weekday) {
         RestTemplate restTemplate = new RestTemplate();
@@ -51,4 +52,21 @@ public class CurrentInfoService {
         int divided = estimatedWaitTime / 60;
         return new CurrentInfoResponse(divided);
     }
+
+    public RecommendTimeResponse recommendLocation(int weekday) {
+        int minWaitTime = Integer.MAX_VALUE;
+        int bestLocation = -1;
+
+        for (int location = 0; location <= 5; location++) {
+            int waitTime = getEstimatedWaitTime(location, weekday).getEstimated_wait_time();
+
+            if (waitTime < minWaitTime || (waitTime == minWaitTime && location < bestLocation)) {
+                minWaitTime = waitTime;
+                bestLocation = location;
+            }
+        }
+
+        return new RecommendTimeResponse(bestLocation);
+    }
+
 }
