@@ -1,13 +1,17 @@
 package com.example.hackathon.findining.service;
 
+import com.example.hackathon.findining.domain.CurrentInfo;
 import com.example.hackathon.findining.dto.CurrentInfoRequest;
 import com.example.hackathon.findining.dto.CurrentInfoResponse;
 import com.example.hackathon.findining.dto.RecommendTimeResponse;
+import com.example.hackathon.findining.repository.CurrentInfoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 @Service
@@ -19,6 +23,7 @@ public class CurrentInfoService {
     private static final String SEATED_COUNT_URL = "https://bbb5-223-195-38-166.ngrok-free.app/current_dining_cnt";
 
     private final RestTemplate restTemplate = new RestTemplate();
+    private final CurrentInfoRepository currentInfoRepository;
 
     public CurrentInfoResponse getEstimatedWaitTime(int location, int weekday) {
         int queueCount = fetchPersonCount(QUEUE_COUNT_URL);
@@ -57,20 +62,64 @@ public class CurrentInfoService {
         return new CurrentInfoResponse(divided);
     }
 
-    public RecommendTimeResponse recommendLocation(int weekday) {
-        int minWaitTime = Integer.MAX_VALUE;
-        int bestLocation = -1;
+    // 1시간마다 자동 실행 (매 정시)
+    @Scheduled(cron = "0 0 * * * *") // 매 정시마다
+    public void storeHourlyCurrentInfos() {
+        LocalDateTime now = LocalDateTime.now();
+        int hour = now.getHour(); // time 컬럼용
+        int weekday = now.getDayOfWeek().getValue() - 1; // 월=1 ~ 일=7 → 월=0 ~ 일=6
 
-        for (int location = 0; location <= 5; location++) {
-            int waitTime = getEstimatedWaitTime(location, weekday).getEstimated_wait_time();
+        for (int location = 0; location <= 4; location++) {
+            int queue = fetchPersonCount(QUEUE_COUNT_URL);
+            int seated = fetchPersonCount(SEATED_COUNT_URL);
+            int backlog = 30;
 
-            if (waitTime < minWaitTime || (waitTime == minWaitTime && location < bestLocation)) {
-                minWaitTime = waitTime;
-                bestLocation = location;
+            int estimated = fetchEstimatedWaitTime(location, weekday, queue, seated, backlog);
+
+            CurrentInfo currentInfo = new CurrentInfo(
+                    null,                 // ID (auto-generated)
+                    location,
+                    now,
+                    hour,
+                    weekday,
+                    queue,
+                    seated,
+                    backlog,
+                    estimated
+            );
+
+            currentInfoRepository.save(currentInfo);
+        }
+    }
+
+    // 외부 API 호출하여 예상 대기 시간 추출
+    private int fetchEstimatedWaitTime(int location, int weekday, int queue, int seated, int backlog) {
+        CurrentInfoRequest request = new CurrentInfoRequest();
+        request.setLocation(location);
+        request.setWeekday(weekday);
+        request.setCurrent_queue_length(queue);
+        request.setCurrent_seated_count(seated);
+        request.setCurrent_order_backlog(backlog);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<CurrentInfoRequest> entity = new HttpEntity<>(request, headers);
+
+        ResponseEntity<Map> response = restTemplate.exchange(
+                EXTERNAL_URL, HttpMethod.POST, entity, Map.class);
+
+        Map<String, Object> body = response.getBody();
+        int estimatedWaitTime = 0;
+
+        if (body != null && body.containsKey("estimated_wait_time")) {
+            Object value = body.get("estimated_wait_time");
+            if (value instanceof Number) {
+                estimatedWaitTime = ((Number) value).intValue();
             }
         }
 
-        return new RecommendTimeResponse(bestLocation);
+        return Math.round(estimatedWaitTime / 60.0f);
     }
 
     private int fetchPersonCount(String url) {
@@ -84,9 +133,24 @@ public class CurrentInfoService {
                 }
             }
         } catch (Exception e) {
-            // 예외 발생 시 기본값 0 반환
             System.out.println("API 호출 실패 (" + url + "): " + e.getMessage());
         }
         return 0;
+    }
+
+    public RecommendTimeResponse recommendLocation(int weekday) {
+        int minWaitTime = Integer.MAX_VALUE;
+        int bestLocation = -1;
+
+        for (int location = 0; location <= 4; location++) {
+            int waitTime = getEstimatedWaitTime(location, weekday).getEstimated_wait_time();
+
+            if (waitTime < minWaitTime || (waitTime == minWaitTime && location < bestLocation)) {
+                minWaitTime = waitTime;
+                bestLocation = location;
+            }
+        }
+
+        return new RecommendTimeResponse(bestLocation);
     }
 }
