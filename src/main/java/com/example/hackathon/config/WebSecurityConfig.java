@@ -36,7 +36,10 @@ public class WebSecurityConfig {
                         // 로그인된 사용자만 접근 가능
                         .requestMatchers(
                                 "/userinfo", "/check-password", "/update-password", "/delete-account",
-                                "/s3/upload", "/s3/delete" ).authenticated()
+                                "/s3/upload", "/s3/delete",
+                                "/preinfo/*",
+                                "/menu"
+                        ).authenticated()
                         .anyRequest().denyAll()
                 )
                 .exceptionHandling(exception -> exception
