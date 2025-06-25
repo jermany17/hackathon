@@ -6,6 +6,7 @@ import lombok.*;
 @Entity
 @Table(name = "menu")
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Menu {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
