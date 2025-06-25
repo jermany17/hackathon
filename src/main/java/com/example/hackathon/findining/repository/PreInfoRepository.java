@@ -10,4 +10,7 @@ public interface PreInfoRepository extends JpaRepository<PreInfo, Long> {
     List<PreInfo> findAllByLocationAndCreateAtBetweenOrderByTimeAsc(
             Integer location, LocalDateTime start, LocalDateTime end
     );
+
+    List<PreInfo> findAllByCreateAtBetween(LocalDateTime start, LocalDateTime end);
+
 }
