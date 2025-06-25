@@ -30,6 +30,23 @@ public class CurrentInfoService {
         int queueCount = fetchPersonCount(QUEUE_COUNT_URL);
         int seatedCount = fetchPersonCount(SEATED_COUNT_URL);
 
+        if(location == 1){
+            queueCount = 30;
+            seatedCount = 40;
+        }
+        else if(location == 2){
+            queueCount = 20;
+            seatedCount = 30;
+        }
+        else if(location == 3){
+            queueCount = 40;
+            seatedCount = 40;
+        }
+        else if(location == 4){
+            queueCount = 0;
+            seatedCount = 0;
+        }
+
         CurrentInfoRequest requestBody = new CurrentInfoRequest();
         requestBody.setLocation(location);
         requestBody.setWeekday(weekday);
